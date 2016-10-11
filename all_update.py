@@ -191,8 +191,48 @@ def save_to_ic_doc_file(doc_file_name, unit_details):
     tpl.render(context)
     tpl.save(doc_file_name)
 
-def update_pc_file(doc_file_name, unit_name, unit_details, table_list):
-    print 'Updating PC for', unit_name, len(unit_details)
+def update_pc_file(unit_details_dict):
+
+    base_unit_director = BASE_DIR
+    
+    # create directory for unit, if not exists
+    if not os.path.exists(base_unit_director):
+        os.makedirs(base_unit_director)
+
+    pc_folder = base_unit_director + 'PC' + SLASH
+
+    # create IC directory if not exists
+    if not os.path.exists(pc_folder):
+        os.makedirs(pc_folder)
+    
+    for unit_details in unit_details_dict:
+
+        print unit_details
+        file_name=pc_folder
+        print  "+++++++++++++"
+        print unit_details['ClientName']
+        print unit_details['SubBranch'].strip()
+
+        if not os.path.exists(pc_folder+unit_details['ClientName']+SLASH):
+            os.makedirs(pc_folder+unit_details['ClientName']+SLASH)
+        
+        file_name = pc_folder+unit_details['ClientName']+SLASH
+        if unit_details['SubBranch'].strip() != '':
+            file_name = pc_folder+unit_details['ClientName']+SLASH+unit_details['SubBranch']+SLASH
+            if not os.path.exists(pc_folder+unit_details['ClientName']+SLASH+unit_details['SubBranch']+SLASH):
+                os.makedirs(pc_folder+unit_details['ClientName']+SLASH+unit_details['SubBranch']+SLASH)               
+        else:
+            file_name = pc_folder+unit_details['ClientName']+SLASH
+      
+        file_name = file_name + 'PC Application '
+
+        file_name += (unit_details['PCApplicationDate'] + '({})'.format(unit_details['SerialNo'])).strip() + '.docx'
+        print file_name            
+        print "END+============================="       
+        #save_to_pc_doc_file(file_name, unit_details)
+
+
+    '''print 'Updating PC for', unit_name, len(unit_details)
     base_unit_director = BASE_DIR + unit_name + SLASH
 
     # create directory for unit, if not exists
@@ -234,7 +274,7 @@ def update_pc_file(doc_file_name, unit_name, unit_details, table_list):
     document.save(doc_file_name)
 
     for file_name in files_list:
-        os.remove(file_name)
+        os.remove(file_name)'''
 
 def update_rwc_file(doc_file_name, unit_name, unit_details, table_list):
     print 'Updating RWC for', unit_name, len(unit_details)
@@ -365,6 +405,8 @@ def update(file_path, directory):
 
     unit_details_dict = view_excel_file(BASE_DIR, EXCEL_FILE)
     update_ic_file(unit_details_dict)
+    update_pc_file(unit_details_dict)
+
     print "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
     '''for unit_name in unit_details:
         pc_doc_file_name = BASE_DIR + unit_name + SLASH + 'PC' + SLASH + 'PC ' + get_finiancial_year(datetime.datetime.now()) + '.docx'
