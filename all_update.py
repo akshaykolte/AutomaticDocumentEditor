@@ -226,7 +226,7 @@ def update_pc_file(unit_details_dict):
       
         file_name = file_name + 'PC Application '
 
-        file_name += (unit_details['PCApplicationDate'] + '({})'.format(unit_details['SerialNo'])).strip() + '.docx'
+        file_name += (unit_details['ICApplicationDate'] + '({})'.format(unit_details['SerialNo'])).strip() + '.docx'
         print file_name            
         print "END+============================="       
         #save_to_pc_doc_file(file_name, unit_details)
