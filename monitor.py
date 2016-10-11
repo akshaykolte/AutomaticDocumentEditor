@@ -3,8 +3,6 @@ from watchdog.events import LoggingEventHandler
 import logging
 import time
 from random import randrange as rr
-from axa_marvel import update_axa_marvel
-from axa_sp_infocity import update_axa_sp_infocity
 from all_update import update
 import os
 import glob
@@ -37,10 +35,12 @@ def main(directory):
     if directory[-1] != SLASH:
         directory += SLASH
     BASE_DIR = directory
+    print "2******************"
+    print BASE_DIR
     xcel_list = glob.glob(BASE_DIR+"/*.xlsx")
+    print xcel_list
 
     for i in xcel_list:
-        print i
 
         call_update(i, directory)
         logging.basicConfig(level=logging.INFO,

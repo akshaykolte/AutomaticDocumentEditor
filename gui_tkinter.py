@@ -1,7 +1,8 @@
 import Tkinter, Tkconstants, tkFileDialog
 RED = "#f44"
 GREEN = "#4b4"
-INITIAL_DIRECTORY = "/home/akshayk/Downloads/Code/AXA"
+global INITIAL_DIRECTORY
+INITIAL_DIRECTORY = "/home/akshay/Public/AutomaticDocumentEditor/AXA"
 import monitor
 
 class TkFileDialogExample(Tkinter.Tk):
@@ -61,6 +62,8 @@ class TkFileDialogExample(Tkinter.Tk):
         self.frame_footer.pack()
 
     def start_service(self):
+        print "**************************************"
+        print self.directoryname.strip()
         monitor.main(self.directoryname.strip())
         self.label_status['text'] = 'Service Status: Running'
         self.label_status['fg'] = GREEN
