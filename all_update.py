@@ -114,10 +114,14 @@ def read_ic_doc_file(doc_file_name):
     table_dict['email_id_and_phone_number'] = get_text_from_cell(table.rows[16].cells[2])
     return table_dict
 
-def save_to_pc_doc_file(doc_file_name, unit_details, table_list):
+def save_to_pc_doc_file(doc_file_name, unit_details):
     tpl=DocxTemplate(PC_DOCX_TEMPLATE)
     context = {}
-    context['ic_date'] = unit_details['ic_date']
+
+    for unit in unit_details:
+        context[unit] = unit_details[unit]
+
+    '''context['ic_date'] = unit_details['ic_date']
     context['pc_date'] = unit_details['pc_date']
     context['sr_no'] = table_list['sr_no']
     context['description_of_goods'] = table_list['description_of_goods']
@@ -131,7 +135,7 @@ def save_to_pc_doc_file(doc_file_name, unit_details, table_list):
     context['certificate_number'] = unit_details['certificate_number']
     context['supplier_name'] = unit_details['name_of_supplier']
     context['country'] = unit_details['country_name']
-    context['proforma_invoice_number'] = unit_details['invoice_number_and_date']
+    context['proforma_invoice_number'] = unit_details['invoice_number_and_date']'''
     tpl.render(context)
     tpl.save(doc_file_name)
 
@@ -162,7 +166,10 @@ def save_to_rwc_doc_file(doc_file_name, unit_details, table_list):
 def save_to_ic_doc_file(doc_file_name, unit_details):
     tpl=DocxTemplate(IC_DOCX_TEMPLATE)
     context = {}
+    for unit in unit_details:
+        context[unit] = unit_details[unit]
 
+    '''    
     context['SerialNo'] = unit_details['SerialNo']
     context['ClientName'] = unit_details['ClientName']
     context['SubBranch'] = unit_details['SubBranch']
@@ -186,8 +193,7 @@ def save_to_ic_doc_file(doc_file_name, unit_details):
     context['CGApprovedAmount'] = unit_details['CGApprovedAmount']
     context['RunningCGBalance'] = unit_details['RunningCGBalance']
     context['ICApplicationDate'] = unit_details['ICApplicationDate']
-    context['Place'] = unit_details['Place']
-
+    context['Place'] = unit_details['Place']'''
     tpl.render(context)
     tpl.save(doc_file_name)
 
@@ -229,7 +235,7 @@ def update_pc_file(unit_details_dict):
         file_name += (unit_details['ICApplicationDate'] + '({})'.format(unit_details['SerialNo'])).strip() + '.docx'
         print file_name            
         print "END+============================="       
-        #save_to_pc_doc_file(file_name, unit_details)
+        save_to_pc_doc_file(file_name, unit_details)
 
 
     '''print 'Updating PC for', unit_name, len(unit_details)
@@ -399,7 +405,7 @@ def update(file_path, directory):
     #print EXCEL_FILE
     print "==================================================================="
     TEMPLATES_DIR = '_files'
-    PC_DOCX_TEMPLATE = TEMPLATES_DIR + SLASH + 'PC-Template - Marvel.docx'
+    PC_DOCX_TEMPLATE = TEMPLATES_DIR + SLASH + 'PC-Template.docx'
     IC_DOCX_TEMPLATE = TEMPLATES_DIR + SLASH + 'IC-Template.docx'
     EMPTY_FILE = TEMPLATES_DIR + SLASH + 'empty.docx'
 
