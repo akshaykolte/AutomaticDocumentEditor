@@ -110,7 +110,7 @@ class TkFileDialogExample(Tkinter.Tk):
 
         print "**************************************"
         print self.directoryname.strip()
-        monitor.main(self.directoryname.strip())
+        monitor.main(self.directoryname.strip(), self)
         self.label_status['text'] = 'Service Status: Running'
         self.label_status['fg'] = GREEN
         self.button_close['text'] = 'Stop Service'
@@ -126,6 +126,7 @@ class TkFileDialogExample(Tkinter.Tk):
         self.unpack_all()
         self.frame_header.pack(fill=None, expand=False)
         self.label_expiredtext.pack(**self.button_opt)
+        self.button_close['text'] = 'Close'
         self.button_close.pack()
         self.frame_footer.pack(fill=None, expand=False)
 

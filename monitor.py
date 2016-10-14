@@ -6,6 +6,7 @@ from random import randrange as rr
 from all_update import update
 import os
 import glob
+from utilities import check_expired
 
 SLASH = '/'
 NOT_SLASH = '\\'
@@ -18,19 +19,21 @@ def call_update(file_path, directory):
     #update_axa_sp_infocity(BASE_DIR, SLASH, EXCEL_FILE)
 
 class Event(LoggingEventHandler):
-    def __init__(self, file_path):
+    def __init__(self, file_path, ui_handler):
       self.file_path = file_path
-      
+      self.ui_handler = ui_handler
+
     def dispatch(self, event):
-        # print 'event occured', event.event_type, event.src_path
-        if event.event_type in ['created', 'modified'] and event.src_path == (self.file_path):
+        if check_expired():
+            self.ui_handler.expired_view()
+        elif event.event_type in ['created', 'modified'] and event.src_path == (self.file_path):
             x = str(rr(1000))
             print 'gottcha - '+x
             time.sleep(1)
             call_update(self.file_path, BASE_DIR)
             print 'done - '+x
 
-def main(directory):
+def main(directory, ui_handler):
     global BASE_DIR, FILE_PATH
     if directory[-1] != SLASH:
         directory += SLASH
@@ -46,7 +49,7 @@ def main(directory):
         logging.basicConfig(level=logging.INFO,
                             format='%(asctime)s - %(message)s',
                             datefmt='%Y-%m-%d %H:%M:%S')
-        event_handler = Event(i)
+        event_handler = Event(i, ui_handler)
         observer = Observer()
         observer.schedule(event_handler, BASE_DIR, recursive=True)
         observer.start()

@@ -1,7 +1,6 @@
 from xlrd import open_workbook, XL_CELL_EMPTY
 from utilities import *
 import datetime
-from xml.dom.minidom import Text
 
 def view_excel_file(directory_path, excel_file_name):
     data_list = []

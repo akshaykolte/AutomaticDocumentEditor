@@ -1,6 +1,7 @@
 import docx2txt
 import docx
 from docxtpl import *
+from xml.dom.minidom import Text
 
 def get_finiancial_year(date):
     year = date.year
