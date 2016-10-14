@@ -31,7 +31,7 @@ class TkFileDialogExample(Tkinter.Tk):
             self.frame_footer,
             self.label_status,
             self.label_dont_quit,
-            self.button_startservice
+            self.button_startservice,
             self.label_expiredtext
         )
         for var in vars:
@@ -126,6 +126,7 @@ class TkFileDialogExample(Tkinter.Tk):
         self.unpack_all()
         self.frame_header.pack(fill=None, expand=False)
         self.label_expiredtext.pack(**self.button_opt)
+        self.button_close.pack()
         self.frame_footer.pack(fill=None, expand=False)
 
     def closeservice(self):
