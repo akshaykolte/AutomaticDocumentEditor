@@ -73,3 +73,12 @@ def combine_word_documents_manual(files, combined_file_name, empty_file):
         count += 1
 
     combined_document.save(combined_file_name)
+
+
+def convert_to_xml(str_raw_text):
+    tempText = Text()
+    tempText.data = str_raw_text
+    return tempText.toxml()
+
+def check_expired():
+    return open('valid.txt').read().find('invalid') >= 0

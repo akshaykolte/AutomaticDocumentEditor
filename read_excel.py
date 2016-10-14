@@ -20,9 +20,7 @@ def view_excel_file(directory_path, excel_file_name):
                         print "---------------------"
                         print sheet.cell(row,column).value
                         print "---------------------"
-                        tempText = Text()
-                        tempText.data = sheet.cell(row,column).value
-                        unit_details[sheet.cell(1,column).value] = tempText.toxml()
+                        unit_details[convert_to_xml(sheet.cell(1,column).value)] = convert_to_xml(sheet.cell(row,column).value)
                     else:
                         break
 

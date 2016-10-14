@@ -4,8 +4,39 @@ GREEN = "#4b4"
 global INITIAL_DIRECTORY
 INITIAL_DIRECTORY = "/home/akshay/Public/AutomaticDocumentEditor/AXA"
 import monitor
+from utilities import check_expired
 
 class TkFileDialogExample(Tkinter.Tk):
+
+    frame_header = None
+    frame_footer = None
+    label_directoryname = None
+    button_askdirectory = None
+    button_proceed = None
+    button_close = None
+    frame_footer = None
+    label_status = None
+    label_dont_quit = None
+    button_startservice = None
+    label_expiredtext = None
+
+    def unpack_all(self):
+        vars = (
+            self.frame_header,
+            self.frame_footer,
+            self.label_directoryname,
+            self.button_askdirectory,
+            self.button_proceed,
+            self.button_close,
+            self.frame_footer,
+            self.label_status,
+            self.label_dont_quit,
+            self.button_startservice
+            self.label_expiredtext
+        )
+        for var in vars:
+            if var != None:
+                var.pack_forget()
 
     def __init__(self):
         Tkinter.Tk.__init__(self)
@@ -21,6 +52,8 @@ class TkFileDialogExample(Tkinter.Tk):
 
         self.label_directoryname = Tkinter.Label(self, text='No Folder Selected')
         self.label_directoryname.pack(**self.button_opt)
+
+        self.label_expiredtext = Tkinter.Label(self, text='Product Expired')
 
         self.button_askdirectory = Tkinter.Button(self, text='Select Folder', command=self.askdirectory)
         self.button_askdirectory.pack(**self.button_opt)
@@ -44,24 +77,37 @@ class TkFileDialogExample(Tkinter.Tk):
         options['parent'] = self
         options['title'] = 'This is a title'
 
+        if check_expired():
+            self.expired_view()
+            return
+
+
+
     def askdirectory(self):
+        if check_expired():
+            self.expired_view()
+            return
         self.directoryname = tkFileDialog.askdirectory(**self.dir_opt)
         self.label_directoryname['text'] = 'Folder path: ' + self.directoryname
         self.button_askdirectory['text'] = 'Change Folder'
 
     def proceed(self):
+        if check_expired():
+            self.expired_view()
+            return
+        self.unpack_all()
         print 'Selected Folder:', self.directoryname
-        self.button_proceed.pack_forget()
-        self.button_askdirectory.pack_forget()
-        self.label_directoryname.pack_forget()
-        self.button_close.pack_forget()
-        self.frame_footer.pack_forget()
+        self.frame_header.pack()
         self.label_status.pack()
         self.button_startservice.pack()
         self.button_close.pack()
         self.frame_footer.pack()
 
     def start_service(self):
+        if check_expired():
+            self.expired_view()
+            return
+
         print "**************************************"
         print self.directoryname.strip()
         monitor.main(self.directoryname.strip())
@@ -69,13 +115,18 @@ class TkFileDialogExample(Tkinter.Tk):
         self.label_status['fg'] = GREEN
         self.button_close['text'] = 'Stop Service'
 
-        self.button_startservice.pack_forget()
-        self.button_close.pack_forget()
-        self.frame_footer.pack_forget()
+        self.unpack_all()
 
+        self.frame_header.pack()
         self.label_dont_quit.pack()
         self.button_close.pack()
         self.frame_footer.pack()
+
+    def expired_view(self):
+        self.unpack_all()
+        self.frame_header.pack(fill=None, expand=False)
+        self.label_expiredtext.pack(**self.button_opt)
+        self.frame_footer.pack(fill=None, expand=False)
 
     def closeservice(self):
         self.destroy()
