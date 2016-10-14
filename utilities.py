@@ -2,6 +2,7 @@ import docx2txt
 import docx
 from docxtpl import *
 from xml.dom.minidom import Text
+from datetime import datetime
 
 def get_finiancial_year(date):
     year = date.year
@@ -82,4 +83,6 @@ def convert_to_xml(str_raw_text):
     return tempText.toxml()
 
 def check_expired():
-    return open('valid.txt').read().find('invalid') >= 0
+    expiry_date = datetime.strptime('30/10/2016','%d/%m/%Y')
+    now = datetime.now()
+    return now > expiry_date
