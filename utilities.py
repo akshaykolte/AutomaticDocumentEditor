@@ -83,6 +83,13 @@ def convert_to_xml(str_raw_text):
     return tempText.toxml()
 
 def check_expired():
-    expiry_date = datetime.strptime('30/10/2016','%d/%m/%Y')
+    expiry_date = datetime.strptime('30/12/2016','%d/%m/%Y')
     now = datetime.now()
     return now > expiry_date
+
+def remove_temp(xcel_list):
+    clean_xcel_list = []
+    for i in xcel_list:
+        if i.find('~$') < 0 :
+            clean_xcel_list.append(i.replace('\\','/'))
+    return clean_xcel_list
