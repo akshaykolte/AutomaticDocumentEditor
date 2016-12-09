@@ -33,7 +33,10 @@ class Event(LoggingEventHandler):
             x = str(rr(1000))
             print 'gottcha - '+x
             time.sleep(1)
-            call_update(self.file_path, BASE_DIR)
+            try:
+                call_update(self.file_path, BASE_DIR)
+            except Exception as e:
+                print e
             print 'done - '+x
 
 def main(directory, ui_handler):

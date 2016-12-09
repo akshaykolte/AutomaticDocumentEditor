@@ -93,3 +93,11 @@ def remove_temp(xcel_list):
         if i.find('~$') < 0 :
             clean_xcel_list.append(i.replace('\\','/'))
     return clean_xcel_list
+	
+def new_linify(string):
+    string = string.replace('1.', '')
+    i = 2
+    while string.find(str(i) + ".") >= 0:
+        string = string.replace(str(i) + ".", "\n")
+        i += 1
+    return string
