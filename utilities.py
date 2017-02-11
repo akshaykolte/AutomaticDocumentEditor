@@ -83,7 +83,7 @@ def convert_to_xml(str_raw_text):
     return tempText.toxml()
 
 def check_expired():
-    expiry_date = datetime.strptime('30/12/2016','%d/%m/%Y')
+    expiry_date = datetime.strptime('31/03/2017','%d/%m/%Y')
     now = datetime.now()
     return now > expiry_date
 
